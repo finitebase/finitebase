@@ -43,6 +43,7 @@ function T = thickness_nonzero_edges(relative_t, relative_t_maxium_thickness, re
 end
 
 function point = compute_upper_point(t, P, relative_t_maxium_thickness, relative_maxium_thickness, t_le, t_te)
+    
     camber = bezier_cubic(1 - t, P);
     deriv = bezier_derivative(1 - t, P);
     normal = [-deriv(2), deriv(1)];
@@ -152,11 +153,13 @@ function L = function_limit(f, t, initial_dt)
     osc = norm(new_value - value);
     dt = dt / 2;
     new_value = f(t + dt);
+    osc_ = 2 * osc;
     %osc = norm(new_value - val);
     
-    while(abs(norm(new_value - value) / osc - 1) < 0.2 && osc > 0)
+    while(abs(osc_ / osc - 1) < 0.2 && osc > 0)
         dt = dt / 2;
         new_value = f(t + dt);
+        osc_ = osc;
         osc = norm(new_value - value);
     end
     L = new_value;
@@ -1736,7 +1739,7 @@ function [suction_wall, pressure_wall, le_round, te_suction, te_pressure, inlet_
 
 
     if r == 0
-        suction_wall = suction_surface;
+        suction_wall = @(t) suction_surface(1 - t);
     else
         suction_wall = @suction_wall_function;
     end
@@ -2122,7 +2125,7 @@ function mesh = generate_fluid_domain_mesh(alpha, beta, gamma, chord_length, lea
     % adjust the factor (it is a linear interpolation of a curve and a
     % segment) in order to avoid negative volum or highly skewed cells,
     % mostly it is to increase it, recommened range is 0.3-0.8
-    cur = @(t) 0.8 * (scaling * (block_list(11).C1(1 - t) - block_list(11).C1(1)) * adjust_rotation_mat + b + block_list(11).C1(1)) + 0.2 * seg(t); 
+    cur = @(t) 0.95 * (scaling * (block_list(11).C1(1 - t) - block_list(11).C1(1)) * adjust_rotation_mat + b + block_list(11).C1(1)) + 0.05 * seg(t); 
     block_list(11).C3 = cur;
     block_list(5).C1 = @(t) cur(1 - t);
 
@@ -2130,6 +2133,24 @@ function mesh = generate_fluid_domain_mesh(alpha, beta, gamma, chord_length, lea
 
 
     
+
+
+
+
+
+
+
+
+
+
+    % =========================================================================
+    % the fallowing part is for adding a curvature to boundary layer at
+    % the pressure side leading edge, the third, or main part, this is for avoid result a
+    % mesh with negative volum cells
+    %
+    %
+    %
+    % =========================================================================
 
     seg = segment(vertice_list(block_list(14).A,:), vertice_list(block_list(14).B,:));
     b = (vertice_list(block_list(14).A,:) - vertice_list(block_list(14).D,:));
@@ -3079,10 +3100,10 @@ alpha                         = inlet_velocity_angle - deg2rad(5);
 beta                          = deg2rad(-5);
 gamma                         = deg2rad(20);
 chord_length                  = 0.03;
-leading_factor                = 0.5;
+leading_factor                = 0.4;
 trailing_factor               = 0.2;
-relative_maxium_thickness     = 0.1;
-relative_t_maxium_thickness   = 0.33;
+relative_maxium_thickness     = 0.08;
+relative_t_maxium_thickness   = 0.3;
 relative_leading_edge_radius  = 0.05;
 relative_trailing_edge_radius = 0.025;
 
