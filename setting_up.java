@@ -219,7 +219,7 @@ public class setting_up extends StarMacro {
 
     automaticCourantNumberControl_0.setCFLMaximumValue(1000.0);
 
-    automaticCourantNumberControl_0.setTargetAmgCycles(2);
+    automaticCourantNumberControl_0.setTargetAmgCycles(3);
 
     ExplicitRelaxationController explicitRelaxationController_0 = 
       coupledImplicitSolver_0.getExplicitRelaxationController();
@@ -230,7 +230,7 @@ public class setting_up extends StarMacro {
     Units units_6 = 
       ((Units) simulation_0.getUnitsManager().getObject(""));
 
-    constantExplicitRelaxationControl_0.getUrfQuantity().setValueAndUnits(0.1, units_6);
+    constantExplicitRelaxationControl_0.getUrfQuantity().setValueAndUnits(0.2, units_6);
 
 
 
@@ -255,7 +255,7 @@ public class setting_up extends StarMacro {
     IntegerValue integerValue_0 = 
       stepStoppingCriterion_0.getMaximumNumberStepsObject();
 
-    integerValue_0.getQuantity().setValue(2000.0);
+    integerValue_0.getQuantity().setValue(2500.0);
 
 
 
