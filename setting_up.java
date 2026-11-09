@@ -246,16 +246,119 @@ public class setting_up extends StarMacro {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ResidualMonitor residualMonitor_0 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Continuity"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_0 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_0);
+
+    monitorIterationStoppingCriterion_0.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    ResidualMonitor residualMonitor_1 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Energy"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_1 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_1);
+
+    monitorIterationStoppingCriterion_1.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    MonitorIterationStoppingCriterionMinLimitType monitorIterationStoppingCriterionMinLimitType_0 = 
+      ((MonitorIterationStoppingCriterionMinLimitType) monitorIterationStoppingCriterion_1.getCriterionType());
+
+    Units units_7 = 
+      ((Units) simulation_0.getUnitsManager().getObject(""));
+
+    monitorIterationStoppingCriterionMinLimitType_0.getLimit().setValueAndUnits(1.0E-6, units_7);
+
+    ResidualMonitor residualMonitor_2 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Intermittency"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_2 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_2);
+
+    monitorIterationStoppingCriterion_2.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    MonitorIterationStoppingCriterionMinLimitType monitorIterationStoppingCriterionMinLimitType_1 = 
+      ((MonitorIterationStoppingCriterionMinLimitType) monitorIterationStoppingCriterion_2.getCriterionType());
+
+    monitorIterationStoppingCriterionMinLimitType_1.getLimit().setValueAndUnits(0.001, units_7);
+
+    ResidualMonitor residualMonitor_3 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Sdr"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_3 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_3);
+
+    monitorIterationStoppingCriterion_3.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    MonitorIterationStoppingCriterionMinLimitType monitorIterationStoppingCriterionMinLimitType_2 = 
+      ((MonitorIterationStoppingCriterionMinLimitType) monitorIterationStoppingCriterion_3.getCriterionType());
+
+    monitorIterationStoppingCriterionMinLimitType_2.getLimit().setValueAndUnits(0.001, units_7);
+
+    ResidualMonitor residualMonitor_4 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Tke"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_4 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_4);
+
+    monitorIterationStoppingCriterion_4.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    MonitorIterationStoppingCriterionMinLimitType monitorIterationStoppingCriterionMinLimitType_3 = 
+      ((MonitorIterationStoppingCriterionMinLimitType) monitorIterationStoppingCriterion_4.getCriterionType());
+
+    monitorIterationStoppingCriterionMinLimitType_3.getLimit().setValueAndUnits(0.001, units_7);
+
+    ResidualMonitor residualMonitor_5 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("X-momentum"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_5 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_5);
+
+    monitorIterationStoppingCriterion_5.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+    ResidualMonitor residualMonitor_6 = 
+      ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Y-momentum"));
+
+    MonitorIterationStoppingCriterion monitorIterationStoppingCriterion_6 = 
+      simulation_0.getSolverStoppingCriterionManager().createIterationStoppingCriterion(residualMonitor_6);
+
+    monitorIterationStoppingCriterion_6.getLogicalOption().setSelected(SolverStoppingCriterionLogicalOption.Type.AND);
+
+
+
+
+
     currentView_0.setInput(new DoubleVector(new double[] {0.026802238651829593, -0.021803355098321042, -0.005035827592191761}), new DoubleVector(new double[] {0.026802238651829593, -0.021803355098321042, 0.15074682425647729}), new DoubleVector(new double[] {0.0, 1.0, 0.0}), 0.04558541573243843, 0, 30.0);
 
-    StepStoppingCriterion stepStoppingCriterion_0 = 
+    StepStoppingCriterion stepStoppingCriterion_7 = 
       ((StepStoppingCriterion) simulation_0.getSolverStoppingCriterionManager().getSolverStoppingCriterion("Maximum Steps"));
 
     
-    IntegerValue integerValue_0 = 
-      stepStoppingCriterion_0.getMaximumNumberStepsObject();
+    IntegerValue integerValue_7 = 
+      stepStoppingCriterion_7.getMaximumNumberStepsObject();
 
-    integerValue_0.getQuantity().setValue(2500.0);
+    integerValue_7.getQuantity().setValue(1500.0);
 
 
 
