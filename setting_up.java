@@ -288,7 +288,7 @@ public class setting_up extends StarMacro {
     Units units_7 = 
       ((Units) simulation_0.getUnitsManager().getObject(""));
 
-    monitorIterationStoppingCriterionMinLimitType_0.getLimit().setValueAndUnits(1.0E-6, units_7);
+    monitorIterationStoppingCriterionMinLimitType_0.getLimit().setValueAndUnits(1.0E-4, units_7);
 
     ResidualMonitor residualMonitor_2 = 
       ((ResidualMonitor) simulation_0.getMonitorManager().getMonitor("Intermittency"));
@@ -404,6 +404,50 @@ public class setting_up extends StarMacro {
 
     cartesian2DPlot_0.openInteractive();
 
+
+
+
+   MassFlowReport massFlowReport_3 = 
+      simulation_0.getReportManager().create("star.flow.MassFlowReport");
+
+    massFlowReport_3.getParts().setQuery(null);
+
+    
+    InterfaceBoundary interfaceBoundary_1 = 
+      ((InterfaceBoundary) region_0.getBoundaryManager().getBoundary("outlet_period_2 [Interface 2]"));
+
+    massFlowReport_3.getParts().setObjects(interfaceBoundary_1);
+
+    massFlowReport_3.setSmooth(true);
+
+    simulation_0.getMonitorManager().createMonitors(new ArrayList<>(Arrays.<Report>asList(massFlowReport_3)), new PlotCreationInfo(PlotCreationInfo.CreatePlotChoice.SINGLE_PLOT, " Plot"));
+
+    Cartesian2DPlot cartesian2DPlot_1 = 
+      ((Cartesian2DPlot) simulation_0.getPlotManager().getPlot("Mass Flow 1 Monitor Plot"));
+
+    cartesian2DPlot_1.openInteractive();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     PartDisplayer partDisplayer_0 = 
       ((PartDisplayer) scene_0.getDisplayerManager().getObject("Surface 1"));
 
@@ -506,20 +550,72 @@ public class setting_up extends StarMacro {
 
     solvePhysics_0.getSimulationObjects().setObjects(physicsContinuum_1);
 
+
+
+
+
+
+
+
+
+
+
     ExportAutomationBlock exportAutomationBlock_0 = 
       (ExportAutomationBlock) simDriverWorkflow_0.getBlocks().createBlock("star.vis.ExportAutomationBlock", "Export");
 
     exportAutomationBlock_0.getSources().setQuery(null);
 
-    //Cartesian2DPlot cartesian2DPlot_0 = 
-     // ((Cartesian2DPlot) simulation_0.getPlotManager().getPlot("Mass Flow Averaged 1 Monitor Plot"));
+    Cartesian2DPlot cartesian2DPlot_3 = ((Cartesian2DPlot) simulation_0.getPlotManager().getPlot("Mass Flow Averaged 1 Monitor Plot"));
 
-    exportAutomationBlock_0.getSources().setObjects(cartesian2DPlot_0);
+    exportAutomationBlock_0.getSources().setObjects(cartesian2DPlot_3);
 
     PlotExportSettings plotExportSettings_0 = 
       exportAutomationBlock_0.getPlotSettings();
 
     plotExportSettings_0.setExportType(PlotExportType.CSV);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ExportAutomationBlock exportAutomationBlock_2 = 
+      (ExportAutomationBlock) simDriverWorkflow_0.getBlocks().createBlock("star.vis.ExportAutomationBlock", "Export");
+
+    exportAutomationBlock_2.getSources().setQuery(null);
+
+   Cartesian2DPlot cartesian2DPlot_4 = ((Cartesian2DPlot) simulation_0.getPlotManager().getPlot("Mass Flow 1 Monitor Plot"));
+
+    exportAutomationBlock_2.getSources().setObjects(cartesian2DPlot_4);
+
+    PlotExportSettings plotExportSettings_1 = 
+      exportAutomationBlock_2.getPlotSettings();
+
+    plotExportSettings_1.setExportType(PlotExportType.CSV);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
