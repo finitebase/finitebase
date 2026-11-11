@@ -3175,17 +3175,21 @@ function val = getLastMonitorValue(filename)
     val = vals(2);   % scalar
 end
 
-function solution = start_simulation(starExe, macroFile)
+function solution = start_simulation(starExe, macroFile, nProcs)
 
     if nargin < 2 || isempty(starExe) ||isempty(macroFile)
         starExe   = 'D:\Program Files\Siemens\20.06.010-R8\STAR-CCM+20.06.010-R8\star\lib\win64\clang17.0vc14.2-r8\lib\starccmw.exe';
-        macroFile   = 'E:\temp\blue\difusor\optimizer test\setting_up.java';
+        macroFile   = 'D:\diffusor design\setting_up.java';
+        nProcs = 4;
     end
 
 
 
     % Number of parallel processes 
-    nProcs = 18;
+    %nProcs = 12;
+
+
+
     cmd = sprintf('"%s" -new -np %d -macro "%s"',starExe, nProcs, macroFile);
     %cmd = sprintf('"%s" -new -macro "%s"', starExe, macroFile);
 
@@ -3212,7 +3216,7 @@ function x = optmizer_vector_translation(...
     blade_number];
 end
 
-function objective = objective_blade(x)
+function objective = objective_blade(x, starExe, macroFile, nProcs)
 
     % Extract design variables
     %disp(x);
@@ -3261,11 +3265,11 @@ function objective = objective_blade(x)
         
 
 
-
+        
         
 
 
-        solution = start_simulation();
+        solution = start_simulation(starExe, macroFile, nProcs);
         evaluation = solution(1) * 154^2 / ((solution(2) / outlet_extension)^2 + 154^2); 
         fprintf('%g, %g\n', transpose(solution));
 
@@ -3283,8 +3287,61 @@ function objective = objective_blade(x)
 end
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 clc;
 clear;
+
+
+
+% system an directory settings
+
+starExe   = 'D:\Program Files\Siemens\20.06.010-R8\STAR-CCM+20.06.010-R8\star\lib\win64\clang17.0vc14.2-r8\lib\starccmw.exe';
+macroFile   = 'D:\diffusor design\setting_up.java';
+nProcs = 12;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 % Design variable vector:
 % x = [alpha;
@@ -3302,7 +3359,7 @@ clear;
 %% Individual lower and upper bounds
 
 lb = [ ...
-    deg2rad(65);              % alpha
+    deg2rad(60);              % alpha
     -pi/36;          % beta
     deg2rad(15);    % gamma
     0.04;           % chord_length
@@ -3321,7 +3378,7 @@ ub = [ ...
     0.05;           % chord_length
     0.45;            % leading_factor
     0.34;            % trailing_factor
-    0.12;            % relative_maxium_thickness
+    0.15;            % relative_maxium_thickness
     0.5;            % relative_t_maxium_thickness
     0.05;            % relative_leading_edge_radius
     0.025;           % relative_trailing_edge_radius
@@ -3355,17 +3412,35 @@ b = zeros(3,1);
 %% Optimization options
 
 options = optimoptions('surrogateopt', ...
-    'MaxFunctionEvaluations', 40, ...
+    'MaxFunctionEvaluations', 600, ...
     'MaxTime', Inf, ...
     'Display', 'iter', ...
     'PlotFcn', [], ...
     'UseParallel', false, ...
     'UseVectorized', false);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 %% Run optimization
 
 [x_opt, fval, exitflag, output] = surrogateopt( ...
-    @objective_blade, ...
+    @(x) objective_blade(x, starExe, macroFile, nProcs), ...
     lb, ub, intcon, A, b, [], [], options);
 
 %% Display results

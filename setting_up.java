@@ -41,7 +41,7 @@ public class setting_up extends StarMacro {
     ImportManager importManager_0 = 
       simulation_0.getImportManager();
 
-    importManager_0.importMeshFiles(new StringVector(new String[] {resolvePath("E:\\temp\\blue\\difusor\\stator_passage.msh")}), NeoProperty.fromString("{\'FileOptions\': [{\'Sequence\': 44}]}"));
+    importManager_0.importMeshFiles(new StringVector(new String[] {resolvePath("stator_passage.msh")}), NeoProperty.fromString("{\'FileOptions\': [{\'Sequence\': 44}]}"));
 
     FvRepresentation fvRepresentation_0 = 
       ((FvRepresentation) simulation_0.getRepresentationManager().getObject("Volume Mesh"));
